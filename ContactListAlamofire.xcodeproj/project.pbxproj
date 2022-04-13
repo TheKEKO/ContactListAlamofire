@@ -79,9 +79,9 @@
 		D4320B4B2805A70E00E4A911 /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				D4320B472805A6C600E4A911 /* PersonListViewController.swift */,
 				D4320B332805A66A00E4A911 /* PersonDetailedViewController.swift */,
 				D4320B492805A6D600E4A911 /* PersonListDetailsViewController.swift */,
+				D4320B472805A6C600E4A911 /* PersonListViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";

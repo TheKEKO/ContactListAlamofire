@@ -4,7 +4,6 @@
 //
 //  Created by Aleksandr F. on 12.04.2022.
 //
-
 import Foundation
 import Alamofire
 
@@ -30,7 +29,7 @@ class NetworkManager {
             .responseJSON { dataResponse in
                 switch dataResponse.result {
                 case .success(let value):
-                    let courses = Person.getCourses(from: value)
+                    let courses = Person.getUsers(from: value)
                     completion(.success(courses))
                 case .failure(let error):
                     print(error)

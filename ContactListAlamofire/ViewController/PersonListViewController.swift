@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Alamofire
 
 class PersonListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -37,7 +36,7 @@ class PersonListViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        cell.textLabel?.text = persons[indexPath.row].name?.capitalized
+        cell.textLabel?.text = persons[indexPath.row].email?.capitalized
         return cell
     }
     

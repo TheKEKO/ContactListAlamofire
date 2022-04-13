@@ -5,8 +5,6 @@
 //  Created by Aleksandr F. on 12.04.2022.
 //
 
-import Foundation
-
 struct Person:Codable {
     
     let name: String?
@@ -14,7 +12,7 @@ struct Person:Codable {
     let email: String?
     let phone: String?
     let website: String?
-
+    
     init(personData: [String: Any]) {
         name = personData["name"] as? String
         username = personData["username"] as? String
@@ -23,7 +21,7 @@ struct Person:Codable {
         website = personData["website"] as? String
     }
     
-    static func getCourses(from value: Any) -> [Person] {
+    static func getUsers(from value: Any) -> [Person] {
         guard let personData = value as? [[String: Any]] else { return [] }
         return personData.compactMap { Person(personData: $0) }
     }
