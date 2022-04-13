@@ -9,20 +9,18 @@ import UIKit
 
 class PersonDetailedViewController: UITableViewController {
     
-    var persons = [Person]()
-    {
-        didSet {
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-    }
+    var persons: [Person] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NetworkManager.shared.downloadJSON { person in
-            self.persons = person
-//            self.tableView.reloadData()
+        NetworkManager.shared.downloadJSON(Link.infoURL.rawValue) { result in
+            switch result {
+            case .success(let persons):
+                self.persons = persons
+                self.tableView.reloadData()
+            case .failure(let error):
+                print(error)
+            }
         }
     }
     

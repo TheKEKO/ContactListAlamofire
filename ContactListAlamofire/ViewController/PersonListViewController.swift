@@ -6,28 +6,28 @@
 //
 
 import UIKit
+import Alamofire
 
 class PersonListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var tableView: UITableView!
     
-    var persons = [Person]()
-    {
-       
-        didSet {
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-    }
+    var persons: [Person] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         tableView.delegate = self
         tableView.dataSource = self
-        NetworkManager.shared.downloadJSON { person in
-            self.persons = person
-//            self.tableView.reloadData()
+        
+        NetworkManager.shared.downloadJSON(Link.infoURL.rawValue) { result in
+            switch result {
+            case .success(let persons):
+                self.persons = persons
+                self.tableView.reloadData()
+            case .failure(let error):
+                print(error)
+            }
         }
     }
     
@@ -37,7 +37,7 @@ class PersonListViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        cell.textLabel?.text = persons[indexPath.row].name.capitalized
+        cell.textLabel?.text = persons[indexPath.row].name?.capitalized
         return cell
     }
     
@@ -52,5 +52,3 @@ class PersonListViewController: UIViewController, UITableViewDelegate, UITableVi
         }
     }
 }
-
-

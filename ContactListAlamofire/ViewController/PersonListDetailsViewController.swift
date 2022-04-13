@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import Alamofire
 class PersonListDetailsViewController: UIViewController {
     
     @IBOutlet weak var name: UILabel!
@@ -19,12 +19,14 @@ class PersonListDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        updateUI()
+    }
+        private func updateUI() {
         title = personInfo.name
-        name.text = "  ➤  Name: \(personInfo.name)"
-        username.text = "  ➤  User name: \(personInfo.username)"
-        email.text = " ✉️ : \(personInfo.email)"
-        phone.text = " 📞 : \(personInfo.phone)"
-        website.text = " 🖥 : \(personInfo.website)"
+        name.text = "  ➤  Name: \(personInfo.name ?? "")"
+        username.text = "  ➤  User name: \(personInfo.username ?? "")"
+        email.text = " ✉️ : \(personInfo.email ?? "")"
+        phone.text = " 📞 : \(personInfo.phone ?? "")"
+        website.text = " 🖥 : \(personInfo.website ?? "")"
     }
 }

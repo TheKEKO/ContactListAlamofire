@@ -6,6 +6,17 @@
 //
 
 import Foundation
+import Alamofire
+
+enum Link: String {
+    case infoURL = "https://jsonplaceholder.typicode.com/users"
+}
+
+enum NetworkError: Error {
+    case invalidURL
+    case noData
+    case decodingError
+}
 
 class NetworkManager {
     
@@ -13,24 +24,18 @@ class NetworkManager {
     
     private init() {}
     
-    func downloadJSON(completed: @escaping ([Person]) -> ()) {
-        guard let url = URL(string: "https://jsonplaceholder.typicode.com/users") else { return }
-        
-        URLSession.shared.dataTask(with: url) { data, _, error in
-            
-            guard let data = data else {
-                print(error?.localizedDescription ?? "No error description")
-                return
+    func downloadJSON(_ url: String, completion: @escaping(Result<[Person], NetworkError>) -> Void) {
+        AF.request(url)
+            .validate()
+            .responseJSON { dataResponse in
+                switch dataResponse.result {
+                case .success(let value):
+                    let courses = Person.getCourses(from: value)
+                    completion(.success(courses))
+                case .failure(let error):
+                    print(error)
+                    completion(.failure(.decodingError))
+                }
             }
-            do {
-                let persons = try JSONDecoder().decode([Person].self, from: data)
-                
-                completed(persons)
-                
-            } catch let error {
-                print(error)
-            }
-        }
-        .resume()
     }
 }
