@@ -11,15 +11,17 @@ class PersonListViewController: UIViewController, UITableViewDelegate, UITableVi
     
     @IBOutlet weak var tableView: UITableView!
     
-    var persons: [Person] = []
+    var persons: [Contact] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         tableView.delegate = self
         tableView.dataSource = self
-        
-        NetworkManager.shared.downloadJSON(Link.infoURL.rawValue) { result in
+        allInfoUI()
+    }
+    
+    private func allInfoUI() {
+        NetworkManager.downloadJSON(url: NetworkManager.infoURL) { result in
             switch result {
             case .success(let persons):
                 self.persons = persons

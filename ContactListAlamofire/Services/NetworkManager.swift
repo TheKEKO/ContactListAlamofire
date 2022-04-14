@@ -4,36 +4,38 @@
 //
 //  Created by Aleksandr F. on 12.04.2022.
 //
+
 import Foundation
 import Alamofire
-
-enum Link: String {
-    case infoURL = "https://jsonplaceholder.typicode.com/users"
-}
-
-enum NetworkError: Error {
-    case invalidURL
-    case noData
-    case decodingError
-}
 
 class NetworkManager {
     
     static let shared = NetworkManager()
-    
     private init() {}
     
-    func downloadJSON(_ url: String, completion: @escaping(Result<[Person], NetworkError>) -> Void) {
+    static let infoURL = "https://api.randomuser.me/?results=20"
+    
+    enum NetworkError: Error {
+        case invalidUrl
+        case noData
+        case decodingError
+        case encodingError
+    }
+    
+    static func downloadJSON(url: String, completion: @escaping (Result<[Contact], Error>) -> Void) {
         AF.request(url)
             .validate()
-            .responseJSON { dataResponse in
-                switch dataResponse.result {
+            .responseJSON { response in
+                switch response.result {
                 case .success(let value):
-                    let courses = Person.getUsers(from: value)
-                    completion(.success(courses))
+                    let news = Person.getResult(value: value)
+                    DispatchQueue.main.async {
+                        completion(.success(news))
+                    }
                 case .failure(let error):
-                    print(error)
-                    completion(.failure(.decodingError))
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
                 }
             }
     }

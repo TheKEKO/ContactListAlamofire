@@ -15,19 +15,19 @@ class PersonListDetailsViewController: UIViewController {
     @IBOutlet weak var phone: UILabel!
     @IBOutlet weak var website: UILabel!
     
-    var personInfo:Person!
+    var personInfo:Contact!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         updateUI()
     }
     
-        private func updateUI() {
-        title = personInfo.name
-        name.text = "  ➤  Name: \(personInfo.name ?? "")"
-        username.text = "  ➤  User name: \(personInfo.username ?? "")"
+    private func updateUI() {
+        //        title = personInfo.title
+        //        name.text = "  ➤  Name: \(personInfo.title ?? "")"
+        //        username.text = "  ➤  User name: \(personInfo.username ?? "")"
         email.text = " ✉️ : \(personInfo.email ?? "")"
         phone.text = " 📞 : \(personInfo.phone ?? "")"
-        website.text = " 🖥 : \(personInfo.website ?? "")"
+        //        website.text = " 🖥 : \(personInfo.website ?? "")"
     }
 }
