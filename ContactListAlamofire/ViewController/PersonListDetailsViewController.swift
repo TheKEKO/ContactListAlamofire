@@ -6,28 +6,37 @@
 //
 
 import UIKit
+import AlamofireImage
 
 class PersonListDetailsViewController: UIViewController {
     
     @IBOutlet weak var name: UILabel!
-    @IBOutlet weak var username: UILabel!
+    @IBOutlet weak var location: UILabel!
     @IBOutlet weak var email: UILabel!
     @IBOutlet weak var phone: UILabel!
     @IBOutlet weak var website: UILabel!
+    @IBOutlet weak var userImageView: UIImageView!
     
-    var personInfo:Contact!
+    var result: User!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateUI()
+        setValues(with: result)
     }
     
-    private func updateUI() {
-        //        title = personInfo.title
-        //        name.text = "  ➤  Name: \(personInfo.title ?? "")"
-        //        username.text = "  ➤  User name: \(personInfo.username ?? "")"
-        email.text = " ✉️ : \(personInfo.email ?? "")"
-        phone.text = " 📞 : \(personInfo.phone ?? "")"
-        //        website.text = " 🖥 : \(personInfo.website ?? "")"
+    override func viewWillLayoutSubviews() {
+        userImageView.layer.cornerRadius = userImageView.bounds.height / 2
+    }
+    
+    private func setValues(with user: User) {
+        name.text = "Name: \(result.name.first) \(result.name.last)"
+        location.text = "City: \(result.location.city)"
+        email.text = "Email: \(result.email)"
+        phone.text = "Phone: \(result.phone)"
+        website.text = "Login: \(result.login.username)"
+        
+        guard let imageURL = URL(string: user.picture.large) else { return }
+        userImageView.af.setImage(withURL: imageURL)
     }
 }
+
